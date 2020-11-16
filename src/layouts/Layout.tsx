@@ -15,7 +15,7 @@ const Layout: React.FC<LayoutProps> = ({ children, title, lang }) => (
       <meta lang={lang} />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     </Head>
-    {children}
+    <div className="container">{children}</div>
   </div>
 );
 
