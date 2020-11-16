@@ -3,6 +3,7 @@ import { useRouter } from "next/dist/client/router";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { Data } from "../../types/Data";
 import { MyCountry } from "../../types/MyCountry";
+import { INPUT_DATE_FORMAT } from "../../utils/formatDateInput";
 import { getCountries } from "../../utils/getCountries";
 import { getCountryData } from "../../utils/getCountryData";
 import { mapCountriesName } from "../../utils/mapCountriesName";
@@ -20,7 +21,7 @@ export interface SearchContextValue {
 
   setCountries: React.Dispatch<React.SetStateAction<MyCountry[]>>;
   setCountry: (countryCode: string) => void;
-  setDate: React.Dispatch<React.SetStateAction<TDate>>;
+  setDate: (date: TDate) => void;
   setCountryData: React.Dispatch<React.SetStateAction<TData>>;
 }
 
@@ -28,8 +29,7 @@ export const SearchContext = createContext<SearchContextValue | null>(null);
 
 export const SearchProvider: React.FC<{}> = ({ children }) => {
   const { query, ...router } = useRouter();
-  const { c: queryCountry } = query;
-  const [date, setDate] = useState<TDate>(moment());
+  const { c: queryCountry, d: queryDate } = query;
   const [countries, setCountries] = useState<MyCountry[]>([]);
   const [cachedCountries, setCachedCountries] = useState<
     Record<string, MyCountry>
@@ -37,7 +37,7 @@ export const SearchProvider: React.FC<{}> = ({ children }) => {
   const [countryData, setCountryData] = useState<TData>(null);
   const [fetching, setFetching] = useState<boolean>(false);
 
-  const setCountryFromQuery = (): MyCountry | null => {
+  const setCountryFromQuery = (): TCountry => {
     if (!queryCountry) {
       return null;
     }
@@ -65,11 +65,16 @@ export const SearchProvider: React.FC<{}> = ({ children }) => {
     return null;
   };
 
-  const setCountryFn: SearchContextValue["setCountry"] = (countryCode) => {
-    router.push({
-      query: { c: countryCode.toLowerCase() },
-    });
+  const setDateFromQuery = (): TDate => {
+    if (!queryDate) {
+      return moment();
+    }
+
+    return moment(queryDate, INPUT_DATE_FORMAT);
   };
+
+  const country = useMemo<TCountry>(() => setCountryFromQuery(), [query]);
+  const date = useMemo<TDate>(() => setDateFromQuery(), [query]);
 
   useEffect(() => {
     const setInitCountries = async () => {
@@ -81,13 +86,12 @@ export const SearchProvider: React.FC<{}> = ({ children }) => {
     setInitCountries();
   }, []);
 
-  const country = useMemo<TCountry>(() => setCountryFromQuery(), [query]);
-
   useEffect(() => {
     const fetchCountryData = async () => {
       setFetching(true);
       if (!country) return;
-      const countryData = await getCountryData(country.value, new Date());
+      const countryData = await getCountryData(country, date);
+      console.log(country.name);
 
       setCountryData(countryData);
       setFetching(false);
@@ -95,6 +99,18 @@ export const SearchProvider: React.FC<{}> = ({ children }) => {
 
     fetchCountryData();
   }, [country]);
+
+  const setCountryFn: SearchContextValue["setCountry"] = (countryCode) => {
+    router.push({
+      query: { ...query, c: countryCode.toLowerCase() },
+    });
+  };
+
+  const setDateFn: SearchContextValue["setDate"] = (dateValue) => {
+    router.push({
+      query: { ...query, d: dateValue.format(INPUT_DATE_FORMAT) },
+    });
+  };
 
   return (
     <SearchContext.Provider
@@ -107,7 +123,7 @@ export const SearchProvider: React.FC<{}> = ({ children }) => {
         setCountryData,
         setCountries,
         setCountry: setCountryFn,
-        setDate,
+        setDate: setDateFn,
       }}
     >
       {children}

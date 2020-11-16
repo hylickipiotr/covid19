@@ -1,3 +1,5 @@
+const plugin = require("tailwindcss/plugin");
+
 module.exports = {
   future: {
     removeDeprecatedGapUtilities: true,
@@ -700,7 +702,7 @@ module.exports = {
     appearance: ["responsive"],
     backgroundAttachment: ["responsive"],
     backgroundClip: ["responsive"],
-    backgroundColor: ["responsive", "hover", "focus"],
+    backgroundColor: ["responsive", "hover", "focus", "disabled"],
     backgroundImage: ["responsive"],
     gradientColorStops: ["responsive", "hover", "focus"],
     backgroundOpacity: ["responsive", "hover", "focus"],
@@ -716,7 +718,7 @@ module.exports = {
     boxShadow: ["responsive", "hover", "focus"],
     boxSizing: ["responsive"],
     container: ["responsive"],
-    cursor: ["responsive"],
+    cursor: ["responsive", "disabled"],
     display: ["responsive"],
     divideColor: ["responsive"],
     divideOpacity: ["responsive"],
@@ -771,7 +773,7 @@ module.exports = {
     strokeWidth: ["responsive"],
     tableLayout: ["responsive"],
     textAlign: ["responsive"],
-    textColor: ["responsive", "hover", "focus"],
+    textColor: ["responsive", "hover", "focus", "disabled"],
     textOpacity: ["responsive", "hover", "focus"],
     textDecoration: ["responsive", "hover", "focus"],
     textTransform: ["responsive"],
@@ -805,5 +807,16 @@ module.exports = {
     animation: ["responsive"],
   },
   corePlugins: {},
-  plugins: [],
+  plugins: [
+    plugin(({ addUtilities, e, theme, variants }) => {
+      const color = "#2684FF";
+      const newUtilities = {
+        ".shadow-outline": {
+          "border-color": color,
+          "box-shadow": `0 0 0 1px ${color}`,
+        },
+      };
+      addUtilities(newUtilities, variants("boxShadow"));
+    }),
+  ],
 };

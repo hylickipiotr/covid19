@@ -23,7 +23,7 @@ const IndexPage = () => {
           <Card type="active" value={countryData.active} />
           <Card type="confirmed" value={countryData.confirmed} />
           <Card type="death" value={countryData.deaths} />
-          <Card type="recoverd" value={countryData.recoverd} />
+          <Card type="recoverd" value={countryData.recovered} />
         </div>
       )}
     </Layout>

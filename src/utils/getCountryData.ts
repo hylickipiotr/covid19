@@ -1,27 +1,17 @@
-import Axios from "axios";
-import moment from "moment";
-import { API_URL } from "../constants/api";
-import { CountryDataResponse } from "../types/CountryDataResponse";
+import { Moment } from "moment";
 import { Data } from "../types/Data";
+import { MyCountry } from "../types/MyCountry";
+import { getDailyRawData } from "./getDailyRawData";
+import { getTodayRawData } from "./getTodayRawData";
+import { isToday } from "./isToday";
 
 export const getCountryData = async (
-  country: string,
-  date: Date
+  country: MyCountry,
+  date: Moment
 ): Promise<Data> => {
-  const response = await Axios.get(`${API_URL}/countries/${country}`);
-  const data: CountryDataResponse = await response.data;
+  if (isToday(date)) {
+    return await getTodayRawData(country);
+  }
 
-  const confirmed = data.confirmed.value;
-  const deaths = data.deaths.value;
-  const recoverd = data.recovered.value;
-  const active = confirmed - recoverd - deaths;
-  const updatedAt = moment(data.lastUpdate);
-
-  return {
-    confirmed,
-    deaths,
-    recoverd,
-    active,
-    updatedAt,
-  };
+  return await getDailyRawData(country, date);
 };

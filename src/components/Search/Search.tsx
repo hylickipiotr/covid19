@@ -44,7 +44,8 @@ const Search: React.FC<ISearch> = () => {
         type="date"
         onChange={handleDateChante}
         value={date.format(INPUT_DATE_FORMAT)}
-        max={date.format(INPUT_DATE_FORMAT)}
+        max={moment().format(INPUT_DATE_FORMAT)}
+        disabled={!country}
       />
     </div>
   );
