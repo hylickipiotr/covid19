@@ -98,7 +98,7 @@ export const SearchProvider: React.FC<{}> = ({ children }) => {
     };
 
     fetchCountryData();
-  }, [country]);
+  }, [country, queryCountry, queryDate]);
 
   const setCountryFn: SearchContextValue["setCountry"] = (countryCode) => {
     router.push({
