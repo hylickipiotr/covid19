@@ -4,6 +4,7 @@ import Select, { ValueType } from "react-select";
 import { MyCountry } from "../../types/MyCountry";
 import { filterCountries } from "../../utils/filterCountries";
 import { INPUT_DATE_FORMAT } from "../../utils/formatDateInput";
+import Button from "../Button/Button";
 import Input from "../Input/Input";
 import { useSearchContext } from "./SearchContext";
 
@@ -25,10 +26,10 @@ const Search: React.FC<ISearch> = () => {
   };
 
   return (
-    <div className="mt-4 w-full md:max-w-lg mx-auto grid grid-row grid-cols-3 gap-3">
+    <div className="mt-4 w-full md:max-w-lg mx-auto grid grid-row grid-cols-6 gap-3">
       <Select
         inputId="country"
-        className="col-span-6 md:col-span-2"
+        className="col-span-6 md:col-span-3"
         placeholder="Który kraj cię interesuje?"
         options={countries}
         autoFocus={true}
@@ -41,11 +42,19 @@ const Search: React.FC<ISearch> = () => {
         blurInputOnSelect
       />
       <Input
+        className="col-span-5 md:col-span-2"
         type="date"
         onChange={handleDateChante}
         value={date.format(INPUT_DATE_FORMAT)}
         max={moment().format(INPUT_DATE_FORMAT)}
         disabled={!country}
+      />
+      <Button
+        className="col-span-1 md:col-span-1"
+        label="Dziś"
+        color="blue"
+        type="button"
+        onClick={() => setDate(moment())}
       />
     </div>
   );
