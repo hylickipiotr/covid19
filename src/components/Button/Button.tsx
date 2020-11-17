@@ -51,8 +51,8 @@ const Button: React.FC<IButton> = ({
             variant === "outline",
           [`text-${color}-600 hover:text-${color}-500`]: variant === "text",
           "w-full": wFull ? wFull : false,
-          "px-4 py-2 rounded-lg text-sm": size === "normal",
-          "px-2 py-1 rounded-md text-xs": size === "small",
+          "px-4 py-2 rounded-md text-sm": size === "normal",
+          "px-2 py-1 rounded-sm text-xs": size === "small",
           "justify-center": !wFull,
         },
         className

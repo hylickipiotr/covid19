@@ -19,11 +19,29 @@ const IndexPage = () => {
       </div>
       <Search />
       {countryData && !fetching && (
-        <div className="mt-8 grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-4">
-          <Card type="active" dailyValue={countryData.active} />
-          <Card type="confirmed" dailyValue={countryData.confirmed} />
-          <Card type="death" dailyValue={countryData.deaths} />
-          <Card type="recoverd" dailyValue={countryData.recovered} />
+        <div>
+          <div className="mt-8 grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-4">
+            <Card type="active" icon="virus" dailyValue={countryData.active} />
+            <Card
+              type="confirmed"
+              icon="check-double"
+              dailyValue={countryData.confirmed}
+            />
+            <Card
+              type="death"
+              icon="skull-crossbones"
+              dailyValue={countryData.deaths}
+            />
+            <Card
+              type="recoverd"
+              icon="virus-slash"
+              dailyValue={countryData.recovered}
+            />
+          </div>
+          <div className="mt-6 text-xs text-gray-600">
+            Ostatnia aktualizacja danych:{" "}
+            {countryData.updatedAt.format("hh:mm:ss")}
+          </div>
         </div>
       )}
     </Layout>

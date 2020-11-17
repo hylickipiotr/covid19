@@ -1,3 +1,4 @@
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 import React from "react";
@@ -34,19 +35,26 @@ interface ICard {
   className?: string;
   type: TCardType;
   dailyValue: ValueType;
+  icon: IconProp;
 }
 
-const Card: React.FC<ICard> = ({ type, dailyValue, className }) => {
+const Card: React.FC<ICard> = ({ type, dailyValue, className, icon }) => {
   const { color, label } = options[type];
 
   return (
     <div
       className={[
-        "relative p-4 bg-white shadow-xl rounded-lg overflow-hidden",
+        "relative p-4 bg-white shadow-lg rounded-md overflow-hidden",
         className,
       ].join(" ")}
     >
-      <span className="block text-sm font-bold text-gray-500">{label}</span>
+      <div className="flex flex-row items-center font-bold text-gray-500">
+        <FontAwesomeIcon
+          icon={icon}
+          className={classNames("text-xs", `text-${color}-500`)}
+        />
+        <span className="text-xs ml-2">{label}</span>
+      </div>
       <div className="flex">
         <span className="text-2xl text-gray-800 font-bold">
           {dailyValue.value.toLocaleString()}
@@ -67,7 +75,7 @@ const Card: React.FC<ICard> = ({ type, dailyValue, className }) => {
           </div>
         ) : null}
       </div>
-      <div className={`absolute w-full h-2 bottom-0 left-0 bg-${color}-400`} />
+      <div className={`absolute w-full h-1 bottom-0 left-0 bg-${color}-400`} />
     </div>
   );
 };
