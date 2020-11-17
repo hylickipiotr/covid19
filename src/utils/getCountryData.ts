@@ -1,3 +1,4 @@
+import moment from "moment";
 import { Moment } from "moment";
 import { DailyData } from "../types/Data";
 import { MyCountry } from "../types/MyCountry";
@@ -19,7 +20,7 @@ export const getCountryData = async (
 
   const previousDayData = await getDailyRawData(
     country,
-    date.subtract(1, "day")
+    moment(date).subtract(1, "day")
   );
   return createDailyData(data, previousDayData);
 };
