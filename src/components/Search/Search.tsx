@@ -55,6 +55,7 @@ const Search: React.FC<ISearch> = () => {
         color="blue"
         type="button"
         onClick={() => setDate(moment())}
+        disabled={!country}
       />
     </div>
   );

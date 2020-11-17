@@ -25,7 +25,6 @@ export const getDailyRawData = async (
   let rawData: CountriesDailyDataResponse;
   if (cachedResponse) {
     rawData = cachedResponse;
-    console.log(rawData);
   } else {
     const response = await Axios.get(url);
     rawData = await response.data;

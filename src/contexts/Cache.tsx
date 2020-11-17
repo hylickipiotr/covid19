@@ -51,7 +51,6 @@ export const CacheProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(cacheReducer, {});
 
   const addItem: CacheValue["addItem"] = (key, item) => {
-    console.log(item);
     dispatch({
       type: ActionType.ADD_ITEM,
       key,
