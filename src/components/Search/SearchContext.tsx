@@ -1,7 +1,7 @@
 import moment, { Moment } from "moment";
 import { useRouter } from "next/dist/client/router";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { Data } from "../../types/Data";
+import { DailyData } from "../../types/Data";
 import { MyCountry } from "../../types/MyCountry";
 import { INPUT_DATE_FORMAT } from "../../utils/formatDateInput";
 import { getCountries } from "../../utils/getCountries";
@@ -10,7 +10,7 @@ import { mapCountriesName } from "../../utils/mapCountriesName";
 
 export type TCountry = MyCountry | null;
 export type TDate = Moment;
-export type TData = Data | null;
+export type TData = DailyData | null;
 
 export interface SearchContextValue {
   country: TCountry;

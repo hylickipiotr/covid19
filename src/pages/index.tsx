@@ -20,10 +20,10 @@ const IndexPage = () => {
       <Search />
       {countryData && !fetching && (
         <div className="mt-8 grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-4">
-          <Card type="active" value={countryData.active} />
-          <Card type="confirmed" value={countryData.confirmed} />
-          <Card type="death" value={countryData.deaths} />
-          <Card type="recoverd" value={countryData.recovered} />
+          <Card type="active" dailyValue={countryData.active} />
+          <Card type="confirmed" dailyValue={countryData.confirmed} />
+          <Card type="death" dailyValue={countryData.deaths} />
+          <Card type="recoverd" dailyValue={countryData.recovered} />
         </div>
       )}
     </Layout>

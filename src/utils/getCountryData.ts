@@ -1,6 +1,7 @@
 import { Moment } from "moment";
-import { Data } from "../types/Data";
+import { DailyData } from "../types/Data";
 import { MyCountry } from "../types/MyCountry";
+import { createDailyData } from "./createDailyData";
 import { getDailyRawData } from "./getDailyRawData";
 import { getTodayRawData } from "./getTodayRawData";
 import { isToday } from "./isToday";
@@ -8,10 +9,17 @@ import { isToday } from "./isToday";
 export const getCountryData = async (
   country: MyCountry,
   date: Moment
-): Promise<Data> => {
+): Promise<DailyData> => {
+  let data;
   if (isToday(date)) {
-    return await getTodayRawData(country);
+    data = await getTodayRawData(country);
+  } else {
+    data = await getDailyRawData(country, date);
   }
 
-  return await getDailyRawData(country, date);
+  const previousDayData = await getDailyRawData(
+    country,
+    date.subtract(1, "day")
+  );
+  return createDailyData(data, previousDayData);
 };
