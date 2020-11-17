@@ -1,6 +1,7 @@
 import moment, { Moment } from "moment";
 import { useRouter } from "next/dist/client/router";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { useCache } from "../../contexts/Cache";
 import { DailyData } from "../../types/Data";
 import { MyCountry } from "../../types/MyCountry";
 import { INPUT_DATE_FORMAT } from "../../utils/formatDateInput";
@@ -28,6 +29,7 @@ export interface SearchContextValue {
 export const SearchContext = createContext<SearchContextValue | null>(null);
 
 export const SearchProvider: React.FC<{}> = ({ children }) => {
+  const cache = useCache();
   const { query, ...router } = useRouter();
   const { c: queryCountry, d: queryDate } = query;
   const [countries, setCountries] = useState<MyCountry[]>([]);
@@ -92,7 +94,7 @@ export const SearchProvider: React.FC<{}> = ({ children }) => {
     const fetchCountryData = async () => {
       setFetching(true);
       if (!country) return;
-      const countryData = await getCountryData(country, date);
+      const countryData = await getCountryData(country, date, cache);
 
       setCountryData(countryData);
       setFetching(false);

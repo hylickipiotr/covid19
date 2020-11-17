@@ -1,5 +1,5 @@
-import moment from "moment";
-import { Moment } from "moment";
+import moment, { Moment } from "moment";
+import { CacheValue } from "../contexts/Cache";
 import { DailyData } from "../types/Data";
 import { MyCountry } from "../types/MyCountry";
 import { createDailyData } from "./createDailyData";
@@ -9,18 +9,22 @@ import { isToday } from "./isToday";
 
 export const getCountryData = async (
   country: MyCountry,
-  date: Moment
+  date: Moment,
+  cache: CacheValue
 ): Promise<DailyData> => {
   let data;
+
   if (isToday(date)) {
     data = await getTodayRawData(country);
   } else {
-    data = await getDailyRawData(country, date);
+    data = await getDailyRawData(country, date, cache);
   }
 
+  const previousDayDate = moment(date).subtract(1, "day");
   const previousDayData = await getDailyRawData(
     country,
-    moment(date).subtract(1, "day")
+    previousDayDate,
+    cache
   );
   return createDailyData(data, previousDayData);
 };
