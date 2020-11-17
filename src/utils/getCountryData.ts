@@ -3,8 +3,8 @@ import { CacheValue } from "../contexts/Cache";
 import { DailyData } from "../types/Data";
 import { MyCountry } from "../types/MyCountry";
 import { createDailyData } from "./createDailyData";
-import { getDailyRawData } from "./getDailyRawData";
-import { getTodayRawData } from "./getTodayRawData";
+import { getDailyData } from "./getDailyData";
+import { getTodayData } from "./getTodayData";
 import { isToday } from "./isToday";
 
 export const getCountryData = async (
@@ -15,16 +15,12 @@ export const getCountryData = async (
   let data;
 
   if (isToday(date)) {
-    data = await getTodayRawData(country);
+    data = await getTodayData(country);
   } else {
-    data = await getDailyRawData(country, date, cache);
+    data = await getDailyData(country, date, cache);
   }
 
   const previousDayDate = moment(date).subtract(1, "day");
-  const previousDayData = await getDailyRawData(
-    country,
-    previousDayDate,
-    cache
-  );
+  const previousDayData = await getDailyData(country, previousDayDate, cache);
   return createDailyData(data, previousDayData);
 };

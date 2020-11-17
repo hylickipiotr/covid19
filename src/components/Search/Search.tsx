@@ -1,6 +1,7 @@
 import moment from "moment";
 import React, { useState } from "react";
 import Select, { ValueType } from "react-select";
+import { useCache } from "../../contexts/Cache";
 import { MyCountry } from "../../types/MyCountry";
 import { filterCountries } from "../../utils/filterCountries";
 import { INPUT_DATE_FORMAT } from "../../utils/formatDateInput";
@@ -11,6 +12,7 @@ import { useSearchContext } from "./SearchContext";
 interface ISearch {}
 
 const Search: React.FC<ISearch> = () => {
+  const cache = useCache();
   const { country, date, setDate, countries, setCountry } = useSearchContext();
   const [countryInput, setCountryInput] = useState("");
 
@@ -24,6 +26,8 @@ const Search: React.FC<ISearch> = () => {
     const { value } = event.target;
     setDate(moment(value, INPUT_DATE_FORMAT));
   };
+
+  const minDate = country ? cache.getItem(country.value)?.minDate : undefined;
 
   return (
     <div className="mt-4 w-full md:max-w-lg mx-auto grid grid-row grid-cols-6 gap-3">
@@ -46,6 +50,7 @@ const Search: React.FC<ISearch> = () => {
         type="date"
         onChange={handleDateChante}
         value={date.format(INPUT_DATE_FORMAT)}
+        min={minDate?.format(INPUT_DATE_FORMAT)}
         max={moment().format(INPUT_DATE_FORMAT)}
         disabled={!country}
       />

@@ -1,4 +1,6 @@
+import { Moment } from "moment";
 import React, { createContext, useContext, useReducer } from "react";
+import { DailyRawData } from "../types/Data";
 
 export enum ActionType {
   ADD_ITEM = "ADD_ITEM",
@@ -6,7 +8,13 @@ export enum ActionType {
   CLEAR = "CLEAR",
 }
 
-export type CacheItem = any;
+export type CacheItem = {
+  today?: DailyRawData | undefined;
+  daily?: Record<string, number> | undefined;
+  historical?: Array<DailyRawData> | undefined;
+  minDate?: Moment;
+};
+
 export type Action =
   | { type: ActionType.ADD_ITEM; key: string; payload: CacheItem }
   | { type: ActionType.REMOVE_ITEM; key: string }
@@ -51,6 +59,7 @@ export const CacheProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(cacheReducer, {});
 
   const addItem: CacheValue["addItem"] = (key, item) => {
+    console.log(key, item);
     dispatch({
       type: ActionType.ADD_ITEM,
       key,
