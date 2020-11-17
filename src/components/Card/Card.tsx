@@ -51,7 +51,7 @@ const Card: React.FC<ICard> = ({ type, dailyValue, className }) => {
         <span className="text-2xl text-gray-800 font-bold">
           {dailyValue.value.toLocaleString()}
         </span>
-        {dailyValue.growth && (
+        {dailyValue.growth ? (
           <div
             className={classNames("mt-1 ml-2 text-xs font-bold", {
               "text-green-600": dailyValue.growth > 0,
@@ -65,7 +65,7 @@ const Card: React.FC<ICard> = ({ type, dailyValue, className }) => {
               {Math.abs(dailyValue.growth).toLocaleString()}
             </span>
           </div>
-        )}
+        ) : null}
       </div>
       <div className={`absolute w-full h-2 bottom-0 left-0 bg-${color}-400`} />
     </div>
