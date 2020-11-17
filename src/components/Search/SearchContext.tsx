@@ -73,8 +73,10 @@ export const SearchProvider: React.FC<{}> = ({ children }) => {
     return moment(queryDate, INPUT_DATE_FORMAT);
   };
 
-  const country = useMemo<TCountry>(() => setCountryFromQuery(), [query]);
-  const date = useMemo<TDate>(() => setDateFromQuery(), [query]);
+  const country = useMemo<TCountry>(() => setCountryFromQuery(), [
+    queryCountry,
+  ]);
+  const date = useMemo<TDate>(() => setDateFromQuery(), [queryDate]);
 
   useEffect(() => {
     const setInitCountries = async () => {
@@ -91,7 +93,6 @@ export const SearchProvider: React.FC<{}> = ({ children }) => {
       setFetching(true);
       if (!country) return;
       const countryData = await getCountryData(country, date);
-      console.log(country.name);
 
       setCountryData(countryData);
       setFetching(false);
