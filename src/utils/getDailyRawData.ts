@@ -2,13 +2,13 @@ import Axios from "axios";
 import moment, { Moment } from "moment";
 import { API_DATE_FORMAT, API_URL } from "../constants/api";
 import { CountriesDailyDataResponse } from "../types/CountryDataResponse";
-import { Data } from "../types/Data";
+import { DailyRawData } from "../types/Data";
 import { MyCountry } from "../types/MyCountry";
 
 export const getDailyRawData = async (
   country: MyCountry,
   date: Moment
-): Promise<Data> => {
+): Promise<DailyRawData> => {
   const formatedDate = date.format(API_DATE_FORMAT);
   const response = await Axios.get(`${API_URL}/daily/${formatedDate}`);
   const rawData: CountriesDailyDataResponse = await response.data;
@@ -18,9 +18,9 @@ export const getDailyRawData = async (
   );
 
   if (filteredCountriesData.length) {
-    return filteredCountriesData.reduce<Data>(
+    return filteredCountriesData.reduce<DailyRawData>(
       (result, { confirmed, deaths, recovered, active, lastUpdate }) => {
-        const newResult: Data = {
+        const newResult: DailyRawData = {
           confirmed: result.confirmed + Number(confirmed),
           deaths: result.deaths + Number(deaths),
           recovered: result.recovered + Number(recovered),
