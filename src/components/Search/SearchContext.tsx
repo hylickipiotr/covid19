@@ -88,6 +88,7 @@ export const SearchProvider: React.FC<{}> = ({ children }) => {
     };
 
     setInitCountries();
+    setCountryFromQuery();
   }, []);
 
   useEffect(() => {
