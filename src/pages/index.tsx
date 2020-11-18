@@ -8,15 +8,7 @@ const IndexPage = () => {
   const { countryData, fetching } = useSearchContext();
 
   return (
-    <Layout title="Next.js + Typescript + Tailwind">
-      <div className="mt-8 text-gray-800">
-        <div className="flex justify-center text-4xl xl:text-5xl font-bold">
-          Covid 19
-        </div>
-        <div className="flex just justify-center -mt-3 xl:-mt-4 text-md xl:text-xl">
-          Statystyki zachorowań
-        </div>
-      </div>
+    <Layout title="Covid-19 Statystyki">
       <Search />
       {countryData && !fetching && (
         <div>
