@@ -8,7 +8,7 @@ const IndexPage = () => {
   const { countryData, fetching } = useSearchContext();
 
   return (
-    <Layout title="Covid-19 Statystyki">
+    <Layout title="COVID-19 Statystyki">
       <Search />
       {countryData && !fetching && (
         <div>

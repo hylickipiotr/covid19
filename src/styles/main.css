@@ -1,3 +1,19 @@
 body {
   @apply bg-gray-100;
 }
+
+.input:hover:not(:disabled) {
+  @apply text-gray-900 border-gray-500 !important;
+}
+
+.date-arrow-button {
+  @apply bg-white text-gray-400 !important;
+}
+
+.date-arrow-button:hover:not(:disabled) {
+  @apply bg-white text-blue-600 !important;
+}
+
+.date-arrow-button:disabled {
+  @apply bg-gray-200 !important;
+}
