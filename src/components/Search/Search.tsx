@@ -59,9 +59,9 @@ const Search: React.FC<ISearch> = () => {
           blurInputOnSelect
         />
       </div>
-      <div className="grid grid-cols-8 md:grid-cols-12 gap-1">
+      <div className="flex gap-1">
         <Button
-          className="date-arrow-button col-span-1"
+          className="date-arrow-button"
           label="Poprzedni dzień"
           icon="angle-left"
           onlyIcon
@@ -72,7 +72,6 @@ const Search: React.FC<ISearch> = () => {
           disabled={isDisabledPreviousDayButton}
         />
         <Input
-          className="col-span-4"
           type="date"
           onChange={handleDateChange}
           value={date.format(INPUT_DATE_FORMAT)}
@@ -81,7 +80,7 @@ const Search: React.FC<ISearch> = () => {
           disabled={!country}
         />
         <Button
-          className="date-arrow-button col-span-1"
+          className="date-arrow-button"
           label="Następny dzień"
           icon="angle-right"
           onlyIcon
@@ -92,7 +91,6 @@ const Search: React.FC<ISearch> = () => {
           disabled={isDisabledNextDayButton}
         />
         <Button
-          className="col-span-2"
           label="Dziś"
           icon="calendar-day"
           color="blue"
