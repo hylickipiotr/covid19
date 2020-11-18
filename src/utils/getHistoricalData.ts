@@ -20,7 +20,7 @@ export const getHistoricalData = async (
     dailyDataIndex = cachedHistoricalData.findIndex(({ updatedAt }) =>
       updatedAt.isSame(date, "day")
     );
-    return [cachedHistoricalData, dailyDataIndex];
+    return [cachedHistoricalData, dailyDataIndex >= 0 ? dailyDataIndex : 0];
   }
 
   const url = `${API_URL}/total/dayone/country/${country.value}`;

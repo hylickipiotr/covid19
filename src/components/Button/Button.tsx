@@ -1,3 +1,5 @@
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 import React from "react";
 
@@ -24,6 +26,8 @@ interface IButton
   variant?: "solid" | "outline" | "text";
   color: ButtonColors;
   wFull?: boolean;
+  icon?: IconProp;
+  onlyIcon?: boolean;
 }
 
 const Button: React.FC<IButton> = ({
@@ -34,6 +38,8 @@ const Button: React.FC<IButton> = ({
   color,
   className,
   wFull,
+  icon,
+  onlyIcon,
   ...buttonProps
 }) => {
   return (
@@ -58,7 +64,10 @@ const Button: React.FC<IButton> = ({
         className
       )}
     >
-      {label}
+      {icon ? <FontAwesomeIcon icon={icon} /> : null}
+      {!onlyIcon ? (
+        <span className={classNames({ "ml-2": icon })}>{label}</span>
+      ) : null}
     </button>
   );
 };

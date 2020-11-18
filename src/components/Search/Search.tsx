@@ -16,25 +16,48 @@ const Search: React.FC<ISearch> = () => {
   const { country, date, setDate, countries, setCountry } = useSearchContext();
   const [countryInput, setCountryInput] = useState("");
 
+  const minDate = cache.getItem(country?.value)?.minDate;
+
+  const isDisabledDateInput = !country || date.isSame(moment(), "day");
+  const isDisabledPreviousWeekButton = !country || date.isSame(minDate, "day");
+  const isDisabledPreviousDayButton = !country || date.isSame(minDate, "day");
+  const isDisabledNextWeekButton = !country || date.isSame(moment(), "day");
+  const isDisabledNextDayButton = !country || date.isSame(moment(), "day");
+
   const handleCountriesChange = async (country: ValueType<MyCountry>) => {
     if (!country) return;
     const { value } = country as MyCountry;
     setCountry(value);
   };
 
-  const handleDateChante = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setDate(moment(value, INPUT_DATE_FORMAT));
   };
 
-  const minDate = country ? cache.getItem(country.value)?.minDate : undefined;
+  const handlePreviousWeekClick = () => {
+    setDate(moment(date).subtract(1, "week"));
+  };
+
+  const handlePreviousDayClick = () => {
+    setDate(moment(date).subtract(1, "day"));
+  };
+
+  const handleNextDayClick = () => {
+    setDate(moment(date).add(1, "day"));
+  };
+
+  const handleNextWeekClick = () => {
+    setDate(moment(date).add(1, "week"));
+  };
 
   return (
-    <div className="mt-4 w-full md:max-w-lg mx-auto grid grid-row grid-cols-6 gap-3">
+    <div className="mt-4 w-full md:max-w-lg mx-auto grid grid-row grid-cols-12 gap-3">
       <Select
         inputId="country"
-        className="col-span-6 md:col-span-3"
-        placeholder="Który kraj cię interesuje?"
+        className="col-span-12"
+        placeholder="Który kraj Cię interesuje?"
+        noOptionsMessage={() => "Nie znaleziono takiego kraju"}
         options={countries}
         autoFocus={true}
         inputValue={countryInput}
@@ -46,21 +69,61 @@ const Search: React.FC<ISearch> = () => {
         blurInputOnSelect
       />
       <Input
-        className="col-span-5 md:col-span-2"
+        className="col-span-12 md:col-span-6 w-full"
         type="date"
-        onChange={handleDateChante}
+        onChange={handleDateChange}
         value={date.format(INPUT_DATE_FORMAT)}
         min={minDate?.format(INPUT_DATE_FORMAT)}
         max={moment().format(INPUT_DATE_FORMAT)}
         disabled={!country}
       />
       <Button
-        className="col-span-1 md:col-span-1"
+        className="col-span-2 md:col-span-1"
+        label="Poprzedni tydzień"
+        icon="angle-double-left"
+        onlyIcon
+        color="blue"
+        type="button"
+        onClick={handlePreviousWeekClick}
+        disabled={isDisabledPreviousWeekButton}
+      />
+      <Button
+        className="col-span-2 md:col-span-1"
+        label="Poprzedni dzień"
+        icon="angle-left"
+        onlyIcon
+        color="blue"
+        type="button"
+        onClick={handlePreviousDayClick}
+        disabled={isDisabledPreviousDayButton}
+      />
+      <Button
+        className="col-span-2 md:col-span-1"
+        label="Następny dzień"
+        icon="angle-right"
+        onlyIcon
+        color="blue"
+        type="button"
+        onClick={handleNextDayClick}
+        disabled={isDisabledNextDayButton}
+      />
+      <Button
+        className="col-span-2 md:col-span-1"
+        label="Następny tydzień"
+        icon="angle-double-right"
+        onlyIcon
+        color="blue"
+        type="button"
+        onClick={handleNextWeekClick}
+        disabled={isDisabledNextWeekButton}
+      />
+      <Button
+        className="col-span-4 md:col-span-2"
         label="Dziś"
         color="blue"
         type="button"
         onClick={() => setDate(moment())}
-        disabled={!country}
+        disabled={isDisabledDateInput}
       />
     </div>
   );

@@ -18,7 +18,6 @@ export const getDailyData = async (
     cachedDaily[formatedDate] &&
     cachedCountryData?.historical
   ) {
-    console.log(cachedDaily, cachedDaily[formatedDate]);
     return cachedCountryData?.historical[cachedDaily[formatedDate]];
   }
 

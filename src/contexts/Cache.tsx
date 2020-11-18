@@ -32,7 +32,7 @@ export type CacheValue = {
   addItem: (key: string, item: CacheItem) => void;
   removeItem: (key: string) => void;
   clearCache: () => void;
-  getItem: (key: string) => CacheItem | undefined;
+  getItem: (key: string | undefined) => CacheItem | undefined;
 };
 
 const CacheContext = createContext<CacheValue | null>(null);
@@ -59,7 +59,6 @@ export const CacheProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(cacheReducer, {});
 
   const addItem: CacheValue["addItem"] = (key, item) => {
-    console.log(key, item);
     dispatch({
       type: ActionType.ADD_ITEM,
       key,
@@ -76,7 +75,7 @@ export const CacheProvider: React.FC = ({ children }) => {
   };
 
   const getItem: CacheValue["getItem"] = (key) => {
-    return state[key];
+    return key ? state[key] : undefined;
   };
 
   return (

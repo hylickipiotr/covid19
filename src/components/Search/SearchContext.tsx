@@ -111,8 +111,20 @@ export const SearchProvider: React.FC<{}> = ({ children }) => {
   };
 
   const setDateFn: SearchContextValue["setDate"] = (dateValue) => {
+    let queryDate: Moment;
+    const now = moment();
+    const minDate = cache.getItem(country?.value)?.minDate || now;
+
+    if (dateValue.isBefore(minDate, "day")) {
+      queryDate = minDate;
+    } else if (dateValue.isAfter(now, "day")) {
+      queryDate = now;
+    } else {
+      queryDate = dateValue;
+    }
+
     router.push({
-      query: { ...query, d: dateValue.format(INPUT_DATE_FORMAT) },
+      query: { ...query, d: queryDate.format(INPUT_DATE_FORMAT) },
     });
   };
 
