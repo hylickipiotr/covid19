@@ -42,7 +42,7 @@ const Search: React.FC<ISearch> = () => {
   };
 
   return (
-    <div className="mt-4 w-full md:max-w-lg mx-auto flex flex-col gap-3">
+    <div className="mt-4 w-full md:max-w-lg mx-auto flex flex-col gap-3 relative z-50">
       <div>
         <Select
           inputId="country"
