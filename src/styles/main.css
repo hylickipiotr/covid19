@@ -17,3 +17,11 @@ body {
 .date-arrow-button:disabled {
   @apply bg-gray-200 !important;
 }
+
+.card-chart-container {
+  position: absolute;
+  height: 100%;
+  width: calc(100% + 32px);
+  bottom: -8px;
+  left: -22px;
+}

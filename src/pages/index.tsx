@@ -20,12 +20,12 @@ const IndexPage = () => {
               dailyValue={countryData.confirmed}
             />
             <Card
-              type="death"
+              type="deaths"
               icon="skull-crossbones"
               dailyValue={countryData.deaths}
             />
             <Card
-              type="recoverd"
+              type="recovered"
               icon="virus-slash"
               dailyValue={countryData.recovered}
             />
