@@ -13,7 +13,15 @@ interface ISearch {}
 
 const Search: React.FC<ISearch> = () => {
   const cache = useCache();
-  const { country, date, setDate, countries, setCountry } = useSearchContext();
+  const {
+    country,
+    date,
+    setDate,
+    setPrevDayDate,
+    setNextDayDate,
+    countries,
+    setCountry,
+  } = useSearchContext();
   const [countryInput, setCountryInput] = useState("");
 
   const minDate = cache.getItem(country?.value)?.minDate;
@@ -34,11 +42,11 @@ const Search: React.FC<ISearch> = () => {
   };
 
   const handlePreviousDayClick = () => {
-    setDate(moment(date).subtract(1, "day"));
+    setPrevDayDate();
   };
 
   const handleNextDayClick = () => {
-    setDate(moment(date).add(1, "day"));
+    setNextDayDate();
   };
 
   return (

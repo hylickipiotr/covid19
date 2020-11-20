@@ -24,6 +24,8 @@ export interface SearchContextValue {
   setCountry: (countryCode: string) => void;
   setDate: (date: TDate) => void;
   setCountryData: React.Dispatch<React.SetStateAction<TData>>;
+  setPrevDayDate: () => void;
+  setNextDayDate: () => void;
 }
 
 export const SearchContext = createContext<SearchContextValue | null>(null);
@@ -128,6 +130,14 @@ export const SearchProvider: React.FC<{}> = ({ children }) => {
     });
   };
 
+  const setPrevDayDate = () => {
+    setDateFn(moment(date).subtract(1, "day"));
+  };
+
+  const setNextDayDate = () => {
+    setDateFn(moment(date).add(1, "day"));
+  };
+
   return (
     <SearchContext.Provider
       value={{
@@ -140,6 +150,8 @@ export const SearchProvider: React.FC<{}> = ({ children }) => {
         setCountries,
         setCountry: setCountryFn,
         setDate: setDateFn,
+        setPrevDayDate,
+        setNextDayDate,
       }}
     >
       {children}

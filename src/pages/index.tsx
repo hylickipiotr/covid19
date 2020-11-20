@@ -3,12 +3,26 @@ import Card from "../components/Card/Card";
 import Search from "../components/Search/Search";
 import { useSearchContext } from "../components/Search/SearchContext";
 import Layout from "../layouts/Layout";
+import { useSwipeable } from "react-swipeable";
 
 const IndexPage = () => {
-  const { countryData, fetching } = useSearchContext();
+  const {
+    country,
+    countryData,
+    fetching,
+    setPrevDayDate,
+    setNextDayDate,
+  } = useSearchContext();
+
+  const handlers = useSwipeable({
+    onSwipedLeft: () => country && setNextDayDate(),
+    onSwipedRight: () => country && setPrevDayDate(),
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true,
+  });
 
   return (
-    <Layout title="COVID-19 Statystyki">
+    <Layout title="COVID-19 Statystyki" swipeable={handlers}>
       <Search />
       {countryData && !fetching && (
         <div>
