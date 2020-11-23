@@ -2,7 +2,19 @@ const colors = require("tailwindcss/colors");
 const plugin = require("tailwindcss/plugin");
 
 module.exports = {
-  purge: ["./src/**/*.jsx", "./src/**/*.tsx"],
+  purge: {
+    enabled: true,
+    content: ["./src/**/*.jsx", "./src/**/*.tsx"],
+    options: {
+      safelist: {
+        standard: [
+          /^(((hover):bg-\w*)|bg-\w*)-(400|600|700)/,
+          /^((():border-\w*)|border-\w*)-(600)/,
+          /^(((hover):text-\w*)|text-\w*)-(400|500)/,
+        ],
+      },
+    },
+  },
   presets: [],
   darkMode: false, // or 'media' or 'class'
   theme: {
@@ -25,9 +37,6 @@ module.exports = {
       yellow: colors.amber,
       green: colors.emerald,
       blue: colors.blue,
-      indigo: colors.indigo,
-      purple: colors.violet,
-      pink: colors.pink,
     },
     spacing: {
       px: "1px",
