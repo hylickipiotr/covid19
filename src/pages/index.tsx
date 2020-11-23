@@ -17,8 +17,6 @@ const IndexPage = () => {
   const handlers = useSwipeable({
     onSwipedLeft: () => country && setNextDayDate(),
     onSwipedRight: () => country && setPrevDayDate(),
-    preventDefaultTouchmoveEvent: true,
-    trackMouse: true,
   });
 
   return (
