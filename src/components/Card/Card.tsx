@@ -53,8 +53,9 @@ const Card: React.FC<ICard> = ({ type, dailyValue, className, icon }) => {
       <div className="relative z-40">
         <div className="flex flex-row items-center font-bold text-gray-400">
           <FontAwesomeIcon
+            size="sm"
             icon={icon}
-            className={classNames("text-xs", `text-${color}-400`)}
+            className={classNames(`text-${color}-400`)}
           />
           <span className="text-xs ml-2">{label}</span>
         </div>
@@ -70,6 +71,7 @@ const Card: React.FC<ICard> = ({ type, dailyValue, className, icon }) => {
               })}
             >
               <FontAwesomeIcon
+                size="sm"
                 icon={dailyValue.growth > 0 ? "angle-up" : "angle-down"}
               />
               <span className="ml-1">

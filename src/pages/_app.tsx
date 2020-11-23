@@ -1,13 +1,13 @@
-import React from "react";
 import { AppProps } from "next/app";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-
-import "../styles/tailwind.css";
-import "../styles/main.css";
+import Head from "next/head";
+import React from "react";
 import { SearchProvider } from "../components/Search/SearchContext";
 import { CacheProvider } from "../contexts/Cache";
-import Head from "next/head";
+import "../styles/main.css";
+import "../styles/tailwind.css";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
 
 library.add(fas);
 

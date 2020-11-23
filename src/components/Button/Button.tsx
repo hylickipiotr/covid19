@@ -73,11 +73,14 @@ const Button: React.FC<IButton> = ({
     >
       {icon ? (
         <FontAwesomeIcon
+          size={
+            onlyIcon && size === "normal"
+              ? "lg"
+              : onlyIcon && size === "small"
+              ? "sm"
+              : "1x"
+          }
           icon={icon}
-          className={classNames({
-            "text-lg": onlyIcon && size === "normal",
-            "text-sm": onlyIcon && size === "small",
-          })}
         />
       ) : null}
       {!onlyIcon ? (
