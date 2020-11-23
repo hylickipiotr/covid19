@@ -1,7 +1,7 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 import React from "react";
+import Icon from "../Icon/Icon";
 
 type ButtonColors =
   | "gray"
@@ -64,7 +64,7 @@ const Button: React.FC<IButton> = ({
           [`hover:bg-${color}-600`]: variant === "outline" && !disabled,
           [`text-${color}-600 hover:text-${color}-500`]: variant === "text",
           "w-full": wFull ? wFull : false,
-          "px-4 py-2 rounded text-sm": size === "normal",
+          "px-4 py-1 rounded text-sm": size === "normal",
           "px-2 py-1 rounded text-xs": size === "small",
           "justify-center": !wFull,
         },
@@ -72,15 +72,12 @@ const Button: React.FC<IButton> = ({
       )}
     >
       {icon ? (
-        <FontAwesomeIcon
-          size={
-            onlyIcon && size === "normal"
-              ? "lg"
-              : onlyIcon && size === "small"
-              ? "sm"
-              : "1x"
-          }
+        <Icon
           icon={icon}
+          className={classNames({
+            "text-lg": onlyIcon && size === "normal",
+            "text-sm": onlyIcon && size === "small",
+          })}
         />
       ) : null}
       {!onlyIcon ? (

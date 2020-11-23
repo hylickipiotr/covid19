@@ -1,10 +1,10 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 import React from "react";
 import { ValueType } from "../../types/Data";
 import CardChart from "../CardChart/CardChart";
 import { ColorName } from "tailwindcss/colors";
+import Icon from "../Icon/Icon";
 
 export type TCardType = "active" | "confirmed" | "recovered" | "deaths";
 
@@ -52,10 +52,9 @@ const Card: React.FC<ICard> = ({ type, dailyValue, className, icon }) => {
     >
       <div className="relative z-40">
         <div className="flex flex-row items-center font-bold text-gray-400">
-          <FontAwesomeIcon
-            size="sm"
+          <Icon
             icon={icon}
-            className={classNames(`text-${color}-400`)}
+            className={classNames("text-sm", `text-${color}-400`)}
           />
           <span className="text-xs ml-2">{label}</span>
         </div>
@@ -66,14 +65,11 @@ const Card: React.FC<ICard> = ({ type, dailyValue, className, icon }) => {
           {dailyValue.growth ? (
             <div
               className={classNames("mt-1 ml-2 text-xs font-bold", {
-                "text-green-600": dailyValue.growth > 0,
-                "text-red-600": dailyValue.growth < 0,
+                "text-green-500": dailyValue.growth > 0,
+                "text-red-500": dailyValue.growth < 0,
               })}
             >
-              <FontAwesomeIcon
-                size="sm"
-                icon={dailyValue.growth > 0 ? "angle-up" : "angle-down"}
-              />
+              <Icon icon={dailyValue.growth > 0 ? "angle-up" : "angle-down"} />
               <span className="ml-1">
                 {Math.abs(dailyValue.growth).toLocaleString()}
               </span>
