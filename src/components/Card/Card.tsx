@@ -4,6 +4,7 @@ import classNames from "classnames";
 import React from "react";
 import { ValueType } from "../../types/Data";
 import CardChart from "../CardChart/CardChart";
+import { ColorName } from "tailwindcss/colors";
 
 export type TCardType = "active" | "confirmed" | "recovered" | "deaths";
 
@@ -11,29 +12,24 @@ const options: Record<
   TCardType,
   {
     label: string;
-    color: string;
-    chartColor: string;
+    color: ColorName;
   }
 > = {
   active: {
     label: "Aktywne",
     color: "yellow",
-    chartColor: "#f6e05e",
   },
   confirmed: {
     label: "Potwierdzone",
     color: "orange",
-    chartColor: "#f6ad55",
   },
   deaths: {
     label: "Zgony",
     color: "red",
-    chartColor: "#fc8181",
   },
   recovered: {
     label: "Wyzdrowienia",
     color: "green",
-    chartColor: "#68d391",
   },
 };
 
@@ -45,7 +41,7 @@ interface ICard {
 }
 
 const Card: React.FC<ICard> = ({ type, dailyValue, className, icon }) => {
-  const { color, label, chartColor } = options[type];
+  const { color, label } = options[type];
 
   return (
     <div
@@ -55,10 +51,10 @@ const Card: React.FC<ICard> = ({ type, dailyValue, className, icon }) => {
       )}
     >
       <div className="relative z-40">
-        <div className="flex flex-row items-center font-bold text-gray-500">
+        <div className="flex flex-row items-center font-bold text-gray-400">
           <FontAwesomeIcon
             icon={icon}
-            className={classNames("text-xs", `text-${color}-500`)}
+            className={classNames("text-xs", `text-${color}-400`)}
           />
           <span className="text-xs ml-2">{label}</span>
         </div>
@@ -86,7 +82,7 @@ const Card: React.FC<ICard> = ({ type, dailyValue, className, icon }) => {
       {/* <div
         className={`absolute w-full h-1 top-0 left-0 bg-${color}-400 z-50`}
       /> */}
-      <CardChart type={type} color={chartColor} />
+      <CardChart type={type} color={color} />
     </div>
   );
 };

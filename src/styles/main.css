@@ -10,12 +10,12 @@ body {
   @apply bg-white text-gray-400 !important;
 }
 
-.date-arrow-button:hover:not(:disabled) {
-  @apply bg-white text-blue-600 !important;
+.date-arrow-button:disabled {
+  @apply bg-gray-300 text-gray-100 !important;
 }
 
-.date-arrow-button:disabled {
-  @apply bg-gray-200 !important;
+.date-arrow-button:hover:not(:disabled) {
+  @apply bg-white text-blue-600 !important;
 }
 
 .card-chart-container {

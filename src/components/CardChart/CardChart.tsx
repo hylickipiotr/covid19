@@ -5,10 +5,11 @@ import Chart from "../Chart/Chart";
 import { useCache } from "../../contexts/Cache";
 import { useSearchContext } from "../Search/SearchContext";
 import { prepareChartData } from "./prepareChartData";
+import colors, { ColorName } from "tailwindcss/colors";
 
 interface ICardChart {
   type: TCardType;
-  color: string;
+  color: ColorName;
 }
 
 const CardChart: React.FC<ICardChart> = ({ type, color }) => {
@@ -35,7 +36,7 @@ const CardChart: React.FC<ICardChart> = ({ type, color }) => {
         series={[
           {
             data,
-            color,
+            color: colors[color][400],
           },
         ]}
         height={100}
