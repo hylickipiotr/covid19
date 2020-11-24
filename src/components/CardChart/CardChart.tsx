@@ -29,7 +29,13 @@ const CardChart: React.FC<ICardChart> = ({ type, color }) => {
   });
 
   return (
-    <div className="card-chart-container">
+    <div
+      className="absolute h-full opacity-60 bottom-0 md:-bottom-1.5"
+      style={{
+        width: "calc(100% + 32px)",
+        left: "-22px",
+      }}
+    >
       <Chart
         type="area"
         options={cardChartOpitons}

@@ -30,12 +30,12 @@ const Country: NextPage<Props> = ({ countryCode }) => {
       {countryData && !fetching && (
         <div>
           <div className="mt-8 grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-4">
-            <Card type="active" icon="virus" dailyValue={countryData.active} />
             <Card
               type="confirmed"
               icon="check-double"
               dailyValue={countryData.confirmed}
             />
+            <Card type="active" icon="virus" dailyValue={countryData.active} />
             <Card
               type="deaths"
               icon="skull-crossbones"

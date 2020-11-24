@@ -17,11 +17,3 @@ body {
 .date-arrow-button:hover:not(:disabled) {
   @apply bg-white text-blue-600 !important;
 }
-
-.card-chart-container {
-  position: absolute;
-  height: 100%;
-  width: calc(100% + 32px);
-  bottom: -8px;
-  left: -22px;
-}
