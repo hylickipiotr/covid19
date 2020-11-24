@@ -3,7 +3,6 @@ const plugin = require("tailwindcss/plugin");
 
 module.exports = {
   purge: {
-    enabled: true,
     content: ["./src/**/*.jsx", "./src/**/*.tsx"],
     options: {
       safelist: {
