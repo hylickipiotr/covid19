@@ -1,17 +1,17 @@
 import { Moment } from "moment";
 import { CacheValue } from "../contexts/Cache";
+import { Country } from "../types/Country";
 import { DailyRawData } from "../types/Data";
-import { MyCountry } from "../types/MyCountry";
 import { INPUT_DATE_FORMAT } from "./formatDateInput";
 import { getHistoricalData } from "./getHistoricalData";
 
 export const getDailyData = async (
-  country: MyCountry,
+  country: Country,
   date: Moment,
   cache: CacheValue
 ): Promise<DailyRawData> => {
   const formatedDate = date.format(INPUT_DATE_FORMAT);
-  const cachedCountryData = cache.getItem(country.value);
+  const cachedCountryData = cache.getItem(country.iso2);
   const cachedDaily = cachedCountryData?.daily;
   if (
     cachedDaily &&
@@ -29,11 +29,11 @@ export const getDailyData = async (
 
   const dailyData = historicalData[dailyDataIndex];
 
-  cache.addItem(country.value, {
-    ...cache.getItem(country.value),
+  cache.addItem(country.iso2, {
+    ...cache.getItem(country.iso2),
     historical: historicalData,
     daily: {
-      ...cache.getItem(country.value)?.daily,
+      ...cache.getItem(country.iso2)?.daily,
       [formatedDate]: dailyDataIndex,
     },
     minDate: historicalData[0].updatedAt,

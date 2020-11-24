@@ -1,13 +1,14 @@
 import moment from "moment";
 import React, { useState } from "react";
 import Select, { ValueType } from "react-select";
+import { COUNTRIES } from "../../constants/countries";
 import { useCache } from "../../contexts/Cache";
-import { MyCountry } from "../../types/MyCountry";
+import { useCountryContext } from "../../contexts/Country";
+import { Country } from "../../types/Country";
 import { filterCountries } from "../../utils/filterCountries";
 import { INPUT_DATE_FORMAT } from "../../utils/formatDateInput";
 import Button from "../Button/Button";
 import Input from "../Input/Input";
-import { useSearchContext } from "./SearchContext";
 
 interface ISearch {}
 
@@ -19,21 +20,20 @@ const Search: React.FC<ISearch> = () => {
     setDate,
     setPrevDayDate,
     setNextDayDate,
-    countries,
     setCountry,
-  } = useSearchContext();
+  } = useCountryContext();
   const [countryInput, setCountryInput] = useState("");
 
-  const minDate = cache.getItem(country?.value)?.minDate;
+  const minDate = cache.getItem(country?.iso2)?.minDate;
 
   const isDisabledDateInput = !country || date.isSame(moment(), "day");
   const isDisabledPreviousDayButton = !country || date.isSame(minDate, "day");
   const isDisabledNextDayButton = !country || date.isSame(moment(), "day");
 
-  const handleCountriesChange = async (country: ValueType<MyCountry>) => {
+  const handleCountriesChange = async (country: ValueType<Country>) => {
     if (!country) return;
-    const { value } = country as MyCountry;
-    setCountry(value);
+    const { iso2 } = country as Country;
+    setCountry(iso2);
   };
 
   const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,7 +56,9 @@ const Search: React.FC<ISearch> = () => {
           inputId="country"
           placeholder="Który kraj Cię interesuje?"
           noOptionsMessage={() => "Nie znaleziono takiego kraju"}
-          options={countries}
+          options={Object.values(COUNTRIES)}
+          getOptionLabel={({ name_pl }) => name_pl}
+          getOptionValue={({ iso2 }) => iso2}
           autoFocus={true}
           inputValue={countryInput}
           onInputChange={setCountryInput}

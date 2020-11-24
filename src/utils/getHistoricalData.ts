@@ -2,19 +2,19 @@ import Axios from "axios";
 import moment, { Moment } from "moment";
 import { API_URL } from "../constants/api";
 import { CacheValue } from "../contexts/Cache";
+import { Country } from "../types/Country";
 import { DailyRawData, HistoricalRawData } from "../types/Data";
-import { MyCountry } from "../types/MyCountry";
 
 type HistoricalResponse = HistoricalRawData[];
 
 export const getHistoricalData = async (
-  country: MyCountry,
+  country: Country,
   date: Moment,
   cache: CacheValue
 ): Promise<[DailyRawData[], number]> => {
   let dailyDataIndex = 0;
   const cachedHistoricalData: DailyRawData[] | undefined = cache.getItem(
-    country.value
+    country.iso2
   )?.historical;
   if (cachedHistoricalData) {
     dailyDataIndex = cachedHistoricalData.findIndex(({ updatedAt }) =>
@@ -23,7 +23,7 @@ export const getHistoricalData = async (
     return [cachedHistoricalData, dailyDataIndex >= 0 ? dailyDataIndex : 0];
   }
 
-  const url = `${API_URL}/total/dayone/country/${country.value}`;
+  const url = `${API_URL}/total/dayone/country/${country.iso2}`;
   const response = await Axios.get(url);
   const data: HistoricalResponse = await response.data;
   if (data.length === undefined) {

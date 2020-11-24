@@ -1,14 +1,14 @@
 import moment, { Moment } from "moment";
 import { CacheValue } from "../contexts/Cache";
+import { Country } from "../types/Country";
 import { DailyData } from "../types/Data";
-import { MyCountry } from "../types/MyCountry";
 import { createDailyData } from "./createDailyData";
 import { getDailyData } from "./getDailyData";
 import { getTodayData } from "./getTodayData";
 import { isToday } from "./isToday";
 
 export const getCountryData = async (
-  country: MyCountry,
+  country: Country,
   date: Moment,
   cache: CacheValue
 ): Promise<DailyData> => {

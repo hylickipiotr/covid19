@@ -3,7 +3,7 @@ import { cardChartOpitons } from "./cardChartOptions";
 import { TCardType } from "../Card/Card";
 import Chart from "../Chart/Chart";
 import { useCache } from "../../contexts/Cache";
-import { useSearchContext } from "../Search/SearchContext";
+import { useCountryContext } from "../../contexts/Country";
 import { prepareChartData } from "./prepareChartData";
 import colors, { ColorName } from "tailwindcss/colors";
 
@@ -14,9 +14,9 @@ interface ICardChart {
 
 const CardChart: React.FC<ICardChart> = ({ type, color }) => {
   const { getItem } = useCache();
-  const { country, date } = useSearchContext();
+  const { country, date } = useCountryContext();
 
-  const cachedCountryData = getItem(country?.value);
+  const cachedCountryData = getItem(country?.iso2);
 
   if (!cachedCountryData) {
     return null;

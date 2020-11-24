@@ -1,15 +1,13 @@
 import Axios from "axios";
 import moment from "moment";
 import { API_MATHDRO_URL } from "../constants/api";
+import { Country } from "../types/Country";
 import { CountryDataResponse } from "../types/CountryDataResponse";
 import { DailyRawData } from "../types/Data";
-import { MyCountry } from "../types/MyCountry";
 
-export const getTodayData = async (
-  country: MyCountry
-): Promise<DailyRawData> => {
+export const getTodayData = async (country: Country): Promise<DailyRawData> => {
   const response = await Axios.get(
-    `${API_MATHDRO_URL}/countries/${country.value}`
+    `${API_MATHDRO_URL}/countries/${country.iso2}`
   );
   const data: CountryDataResponse = await response.data;
 

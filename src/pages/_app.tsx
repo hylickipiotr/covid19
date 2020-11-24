@@ -1,7 +1,7 @@
 import { AppProps } from "next/app";
 import Head from "next/head";
 import React from "react";
-import { SearchProvider } from "../components/Search/SearchContext";
+import { CountryProvider } from "../contexts/Country";
 import { CacheProvider } from "../contexts/Cache";
 import "../styles/main.css";
 import "../styles/tailwind.css";
@@ -43,9 +43,9 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
         <meta name="theme-color" content="#ffffff" />
       </Head>
       <CacheProvider>
-        <SearchProvider>
+        <CountryProvider>
           <Component {...pageProps} />
-        </SearchProvider>
+        </CountryProvider>
       </CacheProvider>
     </>
   );
