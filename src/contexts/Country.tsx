@@ -3,32 +3,23 @@ import { useRouter } from "next/dist/client/router";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { COUNTRIES } from "../constants/countries";
 import { ROUTE } from "../constants/routes";
-import { Country } from "../types/Country";
-import { DailyData } from "../types/Data";
 import { INPUT_DATE_FORMAT } from "../utils/formatDateInput";
 import { getCountryData } from "../utils/getCountryData";
 import { useCache } from "./Cache";
-
-export type TCountry = Country | null;
-export type TDate = Moment;
-export type TData = DailyData | null;
-
-export interface CountryContextValue {
-  country: TCountry;
-  date: TDate;
-  countryData: TData;
-  fetching: boolean;
-
-  setCountry: (countryCode: string) => void;
-  setDate: (date: TDate) => void;
-  setCountryData: React.Dispatch<React.SetStateAction<TData>>;
-  setPrevDayDate: () => void;
-  setNextDayDate: () => void;
-}
+import {
+  CountryContextValue,
+  TData,
+  TCountry,
+  TDate,
+  SetCountry,
+  SetDate,
+  SetPrevDayDate,
+  SetNextDayDate,
+} from "./country.type";
 
 export const CountryContext = createContext<CountryContextValue | null>(null);
 
-export const CountryProvider: React.FC<{}> = ({ children }) => {
+export const CountryProvider: React.FC = ({ children }) => {
   const cache = useCache();
   const { query, ...router } = useRouter();
   const { date: queryDate } = query;
@@ -81,11 +72,11 @@ export const CountryProvider: React.FC<{}> = ({ children }) => {
     fetchCountryData();
   }, [country, router.asPath, queryDate]);
 
-  const setCountryFn: CountryContextValue["setCountry"] = (countryCode) => {
+  const setCountryFn: SetCountry = (countryCode) => {
     router.push(`${ROUTE.COUNTRY}/${countryCode}`);
   };
 
-  const setDateFn: CountryContextValue["setDate"] = (dateValue) => {
+  const setDateFn: SetDate = (dateValue) => {
     let queryDate: Moment;
     const now = moment();
     const minDate = cache.getItem(country?.iso2)?.minDate || now;
@@ -99,11 +90,11 @@ export const CountryProvider: React.FC<{}> = ({ children }) => {
     }
     router.push(`${country?.iso2}?date=${queryDate.format(INPUT_DATE_FORMAT)}`);
   };
-  const setPrevDayDate = () => {
+  const setPrevDayDate: SetPrevDayDate = () => {
     setDateFn(moment(date).subtract(1, "day"));
   };
 
-  const setNextDayDate = () => {
+  const setNextDayDate: SetNextDayDate = () => {
     setDateFn(moment(date).add(1, "day"));
   };
 

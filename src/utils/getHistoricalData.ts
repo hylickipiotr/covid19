@@ -1,7 +1,7 @@
 import Axios from "axios";
 import moment, { Moment } from "moment";
 import { API_URL } from "../constants/api";
-import { CacheValue } from "../contexts/Cache";
+import { CacheValue } from "../contexts/cache.type";
 import { Country } from "../types/Country";
 import { DailyRawData, HistoricalRawData } from "../types/Data";
 

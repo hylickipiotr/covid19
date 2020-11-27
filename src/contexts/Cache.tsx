@@ -1,39 +1,14 @@
-import { Moment } from "moment";
+import moment from "moment";
 import React, { createContext, useContext, useReducer } from "react";
-import { DailyRawData } from "../types/Data";
-
-export enum ActionType {
-  ADD_ITEM = "ADD_ITEM",
-  REMOVE_ITEM = "REMOVE_ITEM",
-  CLEAR = "CLEAR",
-}
-
-export type CacheItem = {
-  today?: DailyRawData | undefined;
-  daily?: Record<string, number> | undefined;
-  historical?: Array<DailyRawData> | undefined;
-  minDate?: Moment;
-};
-
-export type Action =
-  | { type: ActionType.ADD_ITEM; key: string; payload: CacheItem }
-  | { type: ActionType.REMOVE_ITEM; key: string }
-  | {
-      type: ActionType.CLEAR;
-    };
-
-export type State = Record<string, CacheItem>;
-
-export type CacheReducer = (state: State, action: Action) => State;
-
-export type CacheValue = {
-  data: State;
-  dispatch: React.Dispatch<Action>;
-  addItem: (key: string, item: CacheItem) => void;
-  removeItem: (key: string) => void;
-  clearCache: () => void;
-  getItem: (key: string | undefined) => CacheItem | undefined;
-};
+import {
+  ActionType,
+  AddItem,
+  CacheReducer,
+  CacheValue,
+  ClearCache,
+  GetItem,
+  RemoveItem,
+} from "./cache.type";
 
 const CacheContext = createContext<CacheValue | null>(null);
 
@@ -41,24 +16,33 @@ const cacheReducer: CacheReducer = (state, action) => {
   switch (action.type) {
     case ActionType.ADD_ITEM:
       return {
-        ...state,
-        [action.key]: action.payload,
+        updatedAt: moment(),
+        daily: {
+          ...state.daily,
+          [action.key]: action.payload,
+        },
       };
     case ActionType.REMOVE_ITEM:
-      const newState = { ...state };
-      delete newState[action.key];
-      return newState;
+      const newDaily = { ...state.daily };
+      delete newDaily[action.key];
+      return {
+        ...state,
+        daily: newDaily,
+      };
     case ActionType.CLEAR:
-      return {};
+      return {
+        updatedAt: moment(),
+        daily: {},
+      };
     default:
       throw new Error(`Unhandled action type: ${action}`);
   }
 };
 
 export const CacheProvider: React.FC = ({ children }) => {
-  const [state, dispatch] = useReducer(cacheReducer, {});
+  const [{ daily, updatedAt }, dispatch] = useReducer(cacheReducer, {});
 
-  const addItem: CacheValue["addItem"] = (key, item) => {
+  const addItem: AddItem = (key, item) => {
     dispatch({
       type: ActionType.ADD_ITEM,
       key,
@@ -66,23 +50,23 @@ export const CacheProvider: React.FC = ({ children }) => {
     });
   };
 
-  const removeItem: CacheValue["removeItem"] = (key) => {
+  const removeItem: RemoveItem = (key) => {
     dispatch({ type: ActionType.REMOVE_ITEM, key });
   };
 
-  const clearCache: CacheValue["clearCache"] = () => {
+  const clearCache: ClearCache = () => {
     dispatch({ type: ActionType.CLEAR });
   };
 
-  const getItem: CacheValue["getItem"] = (key) => {
-    return key ? state[key] : undefined;
+  const getItem: GetItem = (key) => {
+    return key && daily ? daily[key] : undefined;
   };
 
   return (
     <CacheContext.Provider
       value={{
-        data: state,
-        dispatch,
+        daily,
+        updatedAt,
         addItem,
         removeItem,
         clearCache,

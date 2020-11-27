@@ -1,5 +1,5 @@
 import moment, { Moment } from "moment";
-import { CacheValue } from "../contexts/Cache";
+import { CacheValue } from "../contexts/cache.type";
 import { Country } from "../types/Country";
 import { DailyData } from "../types/Data";
 import { createDailyData } from "./createDailyData";

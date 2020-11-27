@@ -1,5 +1,5 @@
 import { Moment } from "moment";
-import { CacheValue } from "../contexts/Cache";
+import { CacheValue } from "../contexts/cache.type";
 import { Country } from "../types/Country";
 import { DailyRawData } from "../types/Data";
 import { INPUT_DATE_FORMAT } from "./formatDateInput";
