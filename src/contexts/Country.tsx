@@ -5,6 +5,7 @@ import { COUNTRIES } from "../constants/countries";
 import { ROUTE } from "../constants/routes";
 import { INPUT_DATE_FORMAT } from "../utils/formatDateInput";
 import { getCountryData } from "../utils/getCountryData";
+import { isToday } from "../utils/isToday";
 import { useCache } from "./Cache";
 import {
   CountryContextValue,
@@ -88,7 +89,14 @@ export const CountryProvider: React.FC = ({ children }) => {
     } else {
       queryDate = dateValue;
     }
-    router.push(`${country?.iso2}?date=${queryDate.format(INPUT_DATE_FORMAT)}`);
+
+    let url;
+    if (isToday(dateValue)) {
+      url = `${country?.iso2}`;
+    } else {
+      url = `${country?.iso2}?date=${queryDate.format(INPUT_DATE_FORMAT)}`;
+    }
+    router.push(url);
   };
   const setPrevDayDate: SetPrevDayDate = () => {
     setDateFn(moment(date).subtract(1, "day"));
