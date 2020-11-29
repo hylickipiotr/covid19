@@ -1,21 +1,18 @@
 import Axios from "axios";
-import moment, { Moment } from "moment";
+import moment from "moment";
 import { API_URL } from "../constants/api";
-import { CacheValue } from "../contexts/cache.type";
-import { Country } from "../types/Country";
-import { DailyRawData, HistoricalRawData } from "../types/Data";
+import { DailyRawData, GetData, HistoricalRawData } from "../types/Data";
 
 type HistoricalResponse = HistoricalRawData[];
 
-export const getHistoricalData = async (
-  country: Country,
-  date: Moment,
-  cache: CacheValue
-): Promise<[DailyRawData[], number]> => {
+export const getHistoricalData: GetData<[DailyRawData[], number]> = async ({
+  country,
+  date,
+  cache,
+}) => {
   let dailyDataIndex = 0;
-  const cachedHistoricalData: DailyRawData[] | undefined = cache.getItem(
-    country.iso2
-  )?.historical;
+  const cachedHistoricalData: DailyRawData[] | undefined =
+    cache && cache[country.iso2]?.historical;
   if (cachedHistoricalData) {
     dailyDataIndex = cachedHistoricalData.findIndex(({ updatedAt }) =>
       updatedAt.isSame(date, "day")

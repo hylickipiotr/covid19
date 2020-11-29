@@ -1,5 +1,5 @@
 import { Moment } from "moment";
-import { CacheItem } from "../../contexts/cache.type";
+import { CachedCoutry } from "../../contexts/Search/search.type";
 import { DailyRawData } from "../../types/Data";
 import { isToday } from "../../utils/isToday";
 import { TCardType } from "../Card/Card";
@@ -16,7 +16,7 @@ export const prepareChartData = ({
 }: {
   type: TCardType;
   date: Moment;
-  countryData: CacheItem;
+  countryData: CachedCoutry;
 }): Array<number> => {
   const { today, historical } = countryData;
   const isTodayDate = isToday(date);

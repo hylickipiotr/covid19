@@ -1,13 +1,12 @@
+import { library } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { fas } from "@fortawesome/free-solid-svg-icons";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import React from "react";
-import { CountryProvider } from "../contexts/Country";
-import { CacheProvider } from "../contexts/Cache";
+import { SearchProvider } from "../contexts/Search/Search";
 import "../styles/main.css";
 import "../styles/tailwind.css";
-import "@fortawesome/fontawesome-svg-core/styles.css";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
 
 library.add(fas);
 
@@ -42,11 +41,9 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#e53e3e" />
         <meta name="theme-color" content="#ffffff" />
       </Head>
-      <CacheProvider>
-        <CountryProvider>
-          <Component {...pageProps} />
-        </CountryProvider>
-      </CacheProvider>
+      <SearchProvider>
+        <Component {...pageProps} />
+      </SearchProvider>
     </>
   );
 };

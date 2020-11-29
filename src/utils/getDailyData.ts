@@ -1,42 +1,45 @@
-import { Moment } from "moment";
-import { CacheValue } from "../contexts/cache.type";
-import { Country } from "../types/Country";
-import { DailyRawData } from "../types/Data";
+import { DailyRawData, GetData } from "../types/Data";
 import { INPUT_DATE_FORMAT } from "./formatDateInput";
 import { getHistoricalData } from "./getHistoricalData";
 
-export const getDailyData = async (
-  country: Country,
-  date: Moment,
-  cache: CacheValue
-): Promise<DailyRawData> => {
+export const getDailyData: GetData<DailyRawData> = async ({
+  country,
+  date,
+  cache,
+  cacheData,
+}) => {
   const formatedDate = date.format(INPUT_DATE_FORMAT);
-  const cachedCountryData = cache.getItem(country.iso2);
-  const cachedDaily = cachedCountryData?.daily;
+  const cachedCountryData = cache && cache[country.iso2];
   if (
-    cachedDaily &&
-    cachedDaily[formatedDate] &&
-    cachedCountryData?.historical
+    cachedCountryData &&
+    cachedCountryData.daily[formatedDate] &&
+    cachedCountryData.historical
   ) {
-    return cachedCountryData?.historical[cachedDaily[formatedDate]];
+    const cachedDaily = cachedCountryData.daily;
+    return cachedCountryData.historical[cachedDaily[formatedDate]];
   }
 
-  const [historicalData, dailyDataIndex] = await getHistoricalData(
+  const [historicalData, dailyDataIndex] = await getHistoricalData({
     country,
     date,
-    cache
-  );
+    cache,
+    cacheData,
+  });
 
   const dailyData = historicalData[dailyDataIndex];
-
-  cache.addItem(country.iso2, {
-    ...cache.getItem(country.iso2),
-    historical: historicalData,
-    daily: {
-      ...cache.getItem(country.iso2)?.daily,
-      [formatedDate]: dailyDataIndex,
+  const cachedDaily = cache && cache[country.iso2]?.daily;
+  const minDate = historicalData[0].updatedAt;
+  cacheData({
+    countryCode: country.iso2,
+    data: {
+      ...cache,
+      historical: historicalData,
+      daily: {
+        ...cachedDaily,
+        [formatedDate]: dailyDataIndex,
+      },
+      minDate,
     },
-    minDate: historicalData[0].updatedAt,
   });
 
   return dailyData;

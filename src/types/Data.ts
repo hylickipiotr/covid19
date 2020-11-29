@@ -1,4 +1,6 @@
 import { Moment } from "moment";
+import { CacheData, CacheType } from "../contexts/Search/search.type";
+import { Country } from "./Country";
 
 export type ValueType = {
   value: number;
@@ -36,3 +38,10 @@ export type HistoricalRawData = {
   Active: number;
   Date: string;
 };
+
+export type GetData<T> = (options: {
+  country: Country;
+  date: Moment;
+  cache: CacheType | undefined;
+  cacheData: CacheData;
+}) => Promise<T>;

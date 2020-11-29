@@ -2,8 +2,7 @@ import moment from "moment";
 import React, { useState } from "react";
 import Select, { ValueType } from "react-select";
 import { COUNTRIES } from "../../constants/countries";
-import { useCache } from "../../contexts/Cache";
-import { useCountryContext } from "../../contexts/Country";
+import { useSearch } from "../../contexts/Search/Search";
 import { Country } from "../../types/Country";
 import { filterCountries } from "../../utils/filterCountries";
 import { INPUT_DATE_FORMAT } from "../../utils/formatDateInput";
@@ -13,27 +12,26 @@ import Input from "../Input/Input";
 interface ISearch {}
 
 const Search: React.FC<ISearch> = () => {
-  const cache = useCache();
-  const {
-    country,
-    date,
-    setDate,
-    setPrevDayDate,
-    setNextDayDate,
-    setCountry,
-  } = useCountryContext();
+  const [
+    { country, date, cache },
+    { setCountryCode, setDate, setPrevDayDate, setNextDayDate },
+  ] = useSearch();
   const [countryInput, setCountryInput] = useState("");
 
-  const minDate = cache.getItem(country?.iso2)?.minDate;
+  const minDate =
+    country && cache && cache[country.iso2] && cache[country.iso2].minDate;
 
-  const isDisabledDateInput = !country || date.isSame(moment(), "day");
-  const isDisabledPreviousDayButton = !country || date.isSame(minDate, "day");
-  const isDisabledNextDayButton = !country || date.isSame(moment(), "day");
+  const isDisabledDateInput =
+    date && (!country || date.isSame(moment(), "day"));
+  const isDisabledPreviousDayButton =
+    date && (!country || date.isSame(minDate, "day"));
+  const isDisabledNextDayButton =
+    date && (!country || date.isSame(moment(), "day"));
 
   const handleCountriesChange = async (country: ValueType<Country>) => {
     if (!country) return;
     const { iso2 } = country as Country;
-    setCountry(iso2);
+    setCountryCode(iso2);
   };
 
   const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,7 +82,7 @@ const Search: React.FC<ISearch> = () => {
         <Input
           type="date"
           onChange={handleDateChange}
-          value={date.format(INPUT_DATE_FORMAT)}
+          value={date ? date.format(INPUT_DATE_FORMAT) : ""}
           min={minDate?.format(INPUT_DATE_FORMAT)}
           max={moment().format(INPUT_DATE_FORMAT)}
           disabled={!country}

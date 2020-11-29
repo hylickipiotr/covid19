@@ -5,7 +5,11 @@ import { Country } from "../types/Country";
 import { CountryDataResponse } from "../types/CountryDataResponse";
 import { DailyRawData } from "../types/Data";
 
-export const getTodayData = async (country: Country): Promise<DailyRawData> => {
+export const getTodayData = async ({
+  country,
+}: {
+  country: Country;
+}): Promise<DailyRawData> => {
   const response = await Axios.get(
     `${API_MATHDRO_URL}/countries/${country.iso2}`
   );
