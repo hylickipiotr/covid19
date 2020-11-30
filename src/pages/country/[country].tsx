@@ -5,6 +5,7 @@ import Layout from "../../layouts/Layout";
 import { useSwipeable } from "react-swipeable";
 import { NextPage } from "next";
 import { useSearch } from "../../contexts/Search/Search";
+import { isToday } from "../../utils/isToday";
 
 interface Props {
   countryCode: string;
@@ -47,10 +48,11 @@ const Country: NextPage<Props> = ({ countryCode }) => {
               dailyValue={countryData.recovered}
             />
           </div>
-          <div className="mt-6 text-xs text-gray-600">
-            Ostatnia aktualizacja danych:{" "}
-            {countryData.updatedAt.format("hh:mm:ss")}
-          </div>
+          {isToday(countryData.updatedAt) ? (
+            <div className="mt-6 text-xs text-gray-500">
+              Aktualizacja danych: {countryData.updatedAt.format("HH:mm")}
+            </div>
+          ) : null}
         </div>
       )}
     </Layout>
