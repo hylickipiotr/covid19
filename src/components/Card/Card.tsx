@@ -46,10 +46,9 @@ const Card: React.FC<ICard> = ({ type, dailyValue, className, icon }) => {
   return (
     <div
       className={classNames(
-        "relative p-4 bg-white shadow-md rounded-md overflow-hidden",
+        "relative h-22 p-4 bg-white shadow-md rounded-md overflow-hidden",
         className
       )}
-      style={{ minHeight: "84px" }}
     >
       <div className="relative z-40">
         <div className="flex flex-row items-center font-bold text-gray-400">
@@ -59,7 +58,7 @@ const Card: React.FC<ICard> = ({ type, dailyValue, className, icon }) => {
           />
           <span className="text-xs ml-2">{label}</span>
         </div>
-        <div className="flex">
+        <div className="flex mt-1">
           <span className="text-2xl text-gray-800 font-bold">
             {dailyValue.value.toLocaleString()}
           </span>
@@ -67,7 +66,7 @@ const Card: React.FC<ICard> = ({ type, dailyValue, className, icon }) => {
             <div>
               <div
                 className={classNames(
-                  "flex justify-center text-xs px-1 rounded ml-2 mt-1",
+                  "flex items-center text-xs px-1 rounded ml-2 mt-1",
                   {
                     "bg-green-500 text-green-50": dailyValue.growth > 0,
                     "bg-red-500 text-red-50": dailyValue.growth < 0,
@@ -77,7 +76,7 @@ const Card: React.FC<ICard> = ({ type, dailyValue, className, icon }) => {
                 <Icon
                   icon={dailyValue.growth > 0 ? "angle-up" : "angle-down"}
                 />
-                <span className="ml-1 font-bold">
+                <span className="font-bold">
                   {Math.abs(dailyValue.growth).toLocaleString()}
                 </span>
               </div>
