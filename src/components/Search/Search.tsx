@@ -8,6 +8,7 @@ import { filterCountries } from "../../utils/filterCountries";
 import { INPUT_DATE_FORMAT } from "../../utils/formatDateInput";
 import Button from "../Button/Button";
 import Input from "../Input/Input";
+import SelectControl from "./SelectControl";
 
 interface ISearch {}
 
@@ -49,24 +50,24 @@ const Search: React.FC<ISearch> = () => {
 
   return (
     <div className="mt-4 w-full md:max-w-lg mx-auto flex flex-col gap-3 relative z-50">
-      <div>
-        <Select
-          inputId="country"
-          placeholder="Który kraj Cię interesuje?"
-          noOptionsMessage={() => "Nie znaleziono takiego kraju"}
-          options={Object.values(COUNTRIES)}
-          getOptionLabel={({ name_pl }) => name_pl}
-          getOptionValue={({ iso2 }) => iso2}
-          autoFocus={true}
-          inputValue={countryInput}
-          onInputChange={setCountryInput}
-          filterOption={filterCountries}
-          value={country}
-          onChange={handleCountriesChange}
-          isClearable
-          blurInputOnSelect
-        />
-      </div>
+      <Select
+        inputId="country"
+        placeholder="Który kraj Cię interesuje?"
+        noOptionsMessage={() => "Nie znaleziono takiego kraju"}
+        options={Object.values(COUNTRIES)}
+        getOptionLabel={({ name_pl }) => name_pl}
+        getOptionValue={({ iso2 }) => iso2}
+        autoFocus={true}
+        inputValue={countryInput}
+        onInputChange={setCountryInput}
+        filterOption={filterCountries}
+        value={country}
+        onChange={handleCountriesChange}
+        blurInputOnSelect
+        components={{
+          Control: SelectControl,
+        }}
+      />
       <div className="flex gap-1">
         <Button
           className="date-arrow-button"
