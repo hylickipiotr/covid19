@@ -22,7 +22,10 @@ const Country: NextPage<Props> = ({ countryCode }) => {
   });
 
   return (
-    <Layout title="COVID-19 Statystyki" swipeable={handlers}>
+    <Layout
+      title={`COVID-19 Statystyki${country ? " | " + country.name_pl : ""}`}
+      swipeable={handlers}
+    >
       <Search />
       {countryData && !isFetching && (
         <div>
