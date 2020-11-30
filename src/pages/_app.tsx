@@ -1,6 +1,7 @@
 import { library } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { fas } from "@fortawesome/free-solid-svg-icons";
+import { fab } from "@fortawesome/free-brands-svg-icons";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import React from "react";
@@ -8,7 +9,7 @@ import { SearchProvider } from "../contexts/Search/Search";
 import "../styles/main.css";
 import "../styles/tailwind.css";
 
-library.add(fas);
+library.add(fas, fab);
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
