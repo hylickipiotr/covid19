@@ -41,6 +41,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
         <link rel="manifest" href="/manifest.json" />
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#e53e3e" />
         <meta name="theme-color" content="#ffffff" />
+        <meta property="og:image" content="/icon-192.png" />
       </Head>
       <SearchProvider>
         <Component {...pageProps} />
