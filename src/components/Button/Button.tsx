@@ -50,7 +50,7 @@ const Button: React.FC<IButton> = ({
       disabled={disabled}
       {...buttonProps}
       className={classNames(
-        "flex items-center font-bold cursor-pointer transition focus:outline-none disabled:cursor-not-allowed",
+        "flex items-center font-semibold cursor-pointer transition focus:outline-none disabled:cursor-not-allowed",
         `focus:ring-1`,
         {
           [`bg-${color}-600 text-white hover:bg-${color}-700 disabled:bg-gray-300 disabled:text-gray-100`]:
