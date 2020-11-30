@@ -50,7 +50,7 @@ const Card: React.FC<ICard> = ({ type, dailyValue, className, icon }) => {
         className
       )}
       style={{
-        height: "5.25rem",
+        height: "84px",
       }}
     >
       <div className="relative z-40">
