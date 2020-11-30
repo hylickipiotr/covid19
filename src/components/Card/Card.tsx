@@ -46,9 +46,12 @@ const Card: React.FC<ICard> = ({ type, dailyValue, className, icon }) => {
   return (
     <div
       className={classNames(
-        "relative h-22 p-4 bg-white shadow-md rounded-md overflow-hidden",
+        "relative p-4 bg-white shadow-md rounded-md overflow-hidden",
         className
       )}
+      style={{
+        height: "5.25rem",
+      }}
     >
       <div className="relative z-40">
         <div className="flex flex-row items-center font-bold text-gray-400">
