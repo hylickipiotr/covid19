@@ -51,7 +51,7 @@ const Button: React.FC<IButton> = ({
       {...buttonProps}
       className={classNames(
         "flex items-center font-bold cursor-pointer transition-all duration-200 ease-in-out focus:outline-none disabled:cursor-not-allowed",
-        `focus:shadow-outline`,
+        `focus:ring-1`,
         {
           [`bg-${color}-600 text-white hover:bg-${color}-700 disabled:bg-gray-300 disabled:text-gray-100`]:
             variant === "solid",
@@ -59,7 +59,7 @@ const Button: React.FC<IButton> = ({
             variant === "outline",
           [`text-${color}-600 border-${color}-600`]:
             variant === "outline" && color !== "gray",
-          "text-gray-900 border-gray-400 hover:border-gray-500":
+          "text-gray-900 border-gray-300 hover:border-gray-400":
             variant === "outline" && color === "gray",
           [`hover:bg-${color}-600`]: variant === "outline" && !disabled,
           [`text-${color}-600 hover:text-${color}-500`]: variant === "text",

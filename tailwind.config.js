@@ -1,5 +1,4 @@
 const colors = require("tailwindcss/colors");
-const plugin = require("tailwindcss/plugin");
 
 module.exports = {
   purge: {
@@ -936,16 +935,5 @@ module.exports = {
       textColor: ["disabled"],
     },
   },
-  plugins: [
-    plugin(({ addUtilities, e, theme, variants }) => {
-      const color = "#2684FF";
-      const newUtilities = {
-        ".shadow-outline": {
-          "border-color": color,
-          "box-shadow": `0 0 0 1px ${color}`,
-        },
-      };
-      addUtilities(newUtilities, variants("boxShadow"));
-    }),
-  ],
+  plugins: [],
 };
