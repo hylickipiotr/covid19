@@ -28,7 +28,7 @@ const CardChart: React.FC<ICardChart> = ({ type, color }) => {
 
   return (
     <div
-      className="absolute h-full opacity-60 -bottom-1 md:-bottom-1.5"
+      className="absolute h-full opacity-60 -bottom-1.5 md:-bottom-1.5"
       style={{
         width: "calc(100% + 32px)",
         left: "-22px",
