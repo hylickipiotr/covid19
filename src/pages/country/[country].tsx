@@ -57,9 +57,10 @@ const Country: NextPage<Props> = ({ countryCode }) => {
         </div>
       ) : (
         <div className="mt-8 grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-4">
-          {Array.from({ length: 4 }).map(() => (
-            <CardSkeleton />
-          ))}
+          <CardSkeleton />
+          <CardSkeleton />
+          <CardSkeleton />
+          <CardSkeleton />
         </div>
       )}
     </Layout>
