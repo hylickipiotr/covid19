@@ -18,6 +18,7 @@ export enum ActionType {
   SET_IS_FETCHING = "SET_IS_FETCHING",
   SET_RESULT = "SET_RESULT",
   CACHE_DATA = "CACHE_DATA",
+  SET_FORCE_REFETCH = "SET_FORCE_REFETCH",
 }
 export type Action =
   | { type: ActionType.SET_COUNTRY_CODE; payload: string | undefined }
@@ -29,7 +30,8 @@ export type Action =
       type: ActionType.CACHE_DATA;
       countryCode: string;
       payload: Pick<CachedCoutry, "daily" | "historical" | "minDate">;
-    };
+    }
+  | { type: ActionType.SET_FORCE_REFETCH; payload: boolean | undefined };
 
 export type Dispatch = (action: Action) => void;
 
@@ -40,6 +42,7 @@ export type State = {
   result?: DailyData;
   isFetching: boolean;
   cache?: CacheType;
+  forceRefetch?: boolean;
 };
 export type Reducer = (state: State, action: Action) => State;
 
@@ -54,6 +57,7 @@ export type CacheData = (input: {
   countryCode: string;
   data: CachedCoutry;
 }) => void;
+export type ForceRefetch = (state?: boolean) => void;
 
 export type UseSearch = () => [
   State,
@@ -63,5 +67,6 @@ export type UseSearch = () => [
     setDate: SetDate;
     setNextDayDate: SetNextDayDate;
     setPrevDayDate: SetPrevDayDate;
+    forceRefetch: ForceRefetch;
   }
 ];

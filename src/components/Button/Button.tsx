@@ -64,7 +64,7 @@ const Button: React.FC<IButton> = ({
           [`hover:bg-${color}-600`]: variant === "outline" && !disabled,
           [`text-${color}-600 hover:text-${color}-500`]: variant === "text",
           "w-full": wFull ? wFull : false,
-          "px-4 py-1 rounded text-sm": size === "normal",
+          "px-3 py-1 rounded text-sm": size === "normal",
           "px-2 py-1 rounded text-xs": size === "small",
           "justify-center": !wFull,
         },
@@ -75,8 +75,8 @@ const Button: React.FC<IButton> = ({
         <Icon
           icon={icon}
           className={classNames({
-            "text-lg": onlyIcon && size === "normal",
-            "text-sm": onlyIcon && size === "small",
+            "w-4 h-4": onlyIcon && size === "normal",
+            "w-3 h-3": onlyIcon && size === "small",
           })}
         />
       ) : null}

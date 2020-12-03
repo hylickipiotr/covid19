@@ -15,7 +15,7 @@ interface ISearch {}
 const Search: React.FC<ISearch> = () => {
   const [
     { country, date, cache },
-    { setCountryCode, setDate, setPrevDayDate, setNextDayDate },
+    { setCountryCode, setDate, setPrevDayDate, setNextDayDate, forceRefetch },
   ] = useSearch();
   const [countryInput, setCountryInput] = useState("");
 
@@ -50,24 +50,35 @@ const Search: React.FC<ISearch> = () => {
 
   return (
     <div className="mt-4 w-full md:max-w-lg mx-auto flex flex-col gap-3 relative z-50">
-      <Select
-        inputId="country"
-        placeholder="Który kraj Cię interesuje?"
-        noOptionsMessage={() => "Nie znaleziono takiego kraju"}
-        options={Object.values(COUNTRIES)}
-        getOptionLabel={({ name_pl }) => name_pl}
-        getOptionValue={({ iso2 }) => iso2}
-        autoFocus={true}
-        inputValue={countryInput}
-        onInputChange={setCountryInput}
-        filterOption={filterCountries}
-        value={country}
-        onChange={handleCountriesChange}
-        blurInputOnSelect
-        components={{
-          Control: SelectControl,
-        }}
-      />
+      <div className="flex gap-1">
+        <Select
+          className="flex-1"
+          inputId="country"
+          placeholder="Który kraj Cię interesuje?"
+          noOptionsMessage={() => "Nie znaleziono takiego kraju"}
+          options={Object.values(COUNTRIES)}
+          getOptionLabel={({ name_pl }) => name_pl}
+          getOptionValue={({ iso2 }) => iso2}
+          autoFocus={true}
+          inputValue={countryInput}
+          onInputChange={setCountryInput}
+          filterOption={filterCountries}
+          value={country}
+          onChange={handleCountriesChange}
+          blurInputOnSelect
+          components={{
+            Control: SelectControl,
+          }}
+        />
+        <Button
+          color="blue"
+          label="Odśwież"
+          icon="sync-alt"
+          onlyIcon
+          type="button"
+          onClick={() => forceRefetch()}
+        />
+      </div>
       <div className="flex gap-1">
         <Button
           className="date-arrow-button"

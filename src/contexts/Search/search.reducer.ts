@@ -51,5 +51,10 @@ export const searchReducer: Reducer = (state, action) => {
           [action.countryCode]: newCoutryCache,
         },
       };
+    case ActionType.SET_FORCE_REFETCH:
+      return {
+        ...state,
+        forceRefetch: action.payload,
+      };
   }
 };

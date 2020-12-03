@@ -11,6 +11,7 @@ import {
   ActionType,
   CacheData,
   Dispatch,
+  ForceRefetch,
   GetCountry,
   Reducer,
   SetCountryCode,
@@ -58,8 +59,52 @@ export const SearchProvider: React.FC = ({ children }) => {
   const setIsFetching: SetIsFetching = (isFetching) =>
     dispatch({ type: ActionType.SET_IS_FETCHING, payload: isFetching });
 
+  const setForceRefetch: ForceRefetch = (forceRefetch) =>
+    dispatch({ type: ActionType.SET_FORCE_REFETCH, payload: forceRefetch });
+
   const cacheData: CacheData = ({ countryCode, data }) => {
     dispatch({ type: ActionType.CACHE_DATA, countryCode, payload: data });
+  };
+
+  const updateRangeDate = () => {
+    const { country, date, cache } = state;
+    if (
+      !(
+        country &&
+        date &&
+        cache &&
+        cache[country.iso2] &&
+        cache[country.iso2].minDate
+      )
+    ) {
+      return;
+    }
+
+    const validDate = validateDate({
+      date,
+      min: cache[country.iso2].minDate,
+      max: moment(),
+    });
+    if (date === validDate) return;
+    dispatch({ type: ActionType.SET_DATE, payload: validDate });
+  };
+
+  const fetchData = async () => {
+    const { country, date, cache } = state;
+    if (!country || !date) return;
+
+    setIsFetching(true);
+
+    const data = await getData({
+      country,
+      date,
+      cache,
+      cacheData,
+    });
+    dispatch({ type: ActionType.SET_RESULT, payload: data });
+
+    setIsFetching(false);
+    updateRangeDate();
   };
 
   // On Init
@@ -88,49 +133,14 @@ export const SearchProvider: React.FC = ({ children }) => {
 
   // On Path Changed
   React.useEffect(() => {
-    const updateRangeDate = () => {
-      const { country, date, cache } = state;
-      if (
-        !(
-          country &&
-          date &&
-          cache &&
-          cache[country.iso2] &&
-          cache[country.iso2].minDate
-        )
-      ) {
-        return;
-      }
-
-      const validDate = validateDate({
-        date,
-        min: cache[country.iso2].minDate,
-        max: moment(),
-      });
-      if (date === validDate) return;
-      dispatch({ type: ActionType.SET_DATE, payload: validDate });
-    };
-
-    const fetchData = async () => {
-      const { country, date, cache } = state;
-      if (!country || !date) return;
-
-      setIsFetching(true);
-
-      const data = await getData({
-        country,
-        date,
-        cache,
-        cacheData,
-      });
-      dispatch({ type: ActionType.SET_RESULT, payload: data });
-
-      setIsFetching(false);
-      updateRangeDate();
-    };
-
     fetchData();
   }, [state.country, state.date]);
+
+  // On Force Refetch
+  React.useEffect(() => {
+    fetchData();
+    setForceRefetch(false);
+  }, [state.forceRefetch]);
 
   return (
     <SearchStateContext.Provider value={state}>
@@ -183,6 +193,10 @@ export const useSearch: UseSearch = () => {
     dispatch({ type: ActionType.SET_DATE, payload: prevDayDate });
   };
 
+  const forceRefetch: ForceRefetch = () => {
+    dispatch({ type: ActionType.SET_FORCE_REFETCH, payload: true });
+  };
+
   return [
     state,
     {
@@ -191,6 +205,7 @@ export const useSearch: UseSearch = () => {
       setDate,
       setPrevDayDate,
       setNextDayDate,
+      forceRefetch,
     },
   ];
 };
