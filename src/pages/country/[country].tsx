@@ -6,6 +6,7 @@ import { useSwipeable } from "react-swipeable";
 import { NextPage } from "next";
 import { useSearch } from "../../contexts/Search/Search";
 import { isToday } from "../../utils/isToday";
+import CardSkeleton from "../../components/Card/Card.skeleton";
 
 interface Props {
   countryCode: string;
@@ -28,7 +29,7 @@ const Country: NextPage<Props> = ({ countryCode }) => {
       swipeable={handlers}
     >
       <Search />
-      {countryData && !isFetching && (
+      {countryData && !isFetching ? (
         <div>
           <div className="mt-8 grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-4">
             <Card
@@ -53,6 +54,12 @@ const Country: NextPage<Props> = ({ countryCode }) => {
               Aktualizacja danych: {countryData.updatedAt.format("HH:mm")}
             </div>
           ) : null}
+        </div>
+      ) : (
+        <div className="mt-8 grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-4">
+          {Array.from({ length: 4 }).map(() => (
+            <CardSkeleton />
+          ))}
         </div>
       )}
     </Layout>

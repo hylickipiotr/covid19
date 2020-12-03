@@ -8,7 +8,8 @@ import Icon from "../Icon/Icon";
 
 export type TCardType = "active" | "confirmed" | "recovered" | "deaths";
 
-const options: Record<
+export const cardHeight = "84px";
+const cardOptions: Record<
   TCardType,
   {
     label: string;
@@ -41,7 +42,7 @@ interface ICard {
 }
 
 const Card: React.FC<ICard> = ({ type, dailyValue, className, icon }) => {
-  const { color, label } = options[type];
+  const { color, label } = cardOptions[type];
 
   return (
     <div
@@ -50,7 +51,7 @@ const Card: React.FC<ICard> = ({ type, dailyValue, className, icon }) => {
         className
       )}
       style={{
-        height: "84px",
+        height: cardHeight,
       }}
     >
       <div className="relative z-40">
